@@ -1,0 +1,1 @@
+MONGO_URI = 'mongodb+srv://atmehta:atmehta@livewell.coapq.mongodb.net/?retryWrites=true&w=majority&appName=LiveWell'
