@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Create the Flask app
-app = create_app()
+app = create_app('.config.py')
 
 if __name__ == "__main__":
     # Run the Flask app
