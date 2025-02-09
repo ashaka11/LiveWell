@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage.tsx';
 import SignupPage from './pages/SignUpPage.tsx';
 import ChatPage from './pages/ChatPage.tsx';
 import DashboardPage from './pages/DashBoardPage.tsx';
+import HomePage from './pages/HomePage.tsx';
 
 const App = () => {
   return (
@@ -18,7 +19,7 @@ const App = () => {
 
         {/* Protected routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<DashboardPage />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/chat" element={<ChatPage />} />
         </Route>
