@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from flask import current_app, make_response, jasonify
+from flask import current_app, make_response, jsonify
 
 class User:
     def __init__(self):
@@ -13,6 +13,6 @@ class User:
     
     def add_user(self, data):
         if self.collection.find_one({'username': data['username']}):
-            return make_response(jasonify({'message': 'User already exists'}), 400)
+            return make_response(jsonify({'message': 'User already exists'}), 400)
         self.collection.insert_one(data)
-        return make_response(jasonify({'message': 'User added'}), 200)
+        return make_response(jsonify({'message': 'User added'}), 200)
