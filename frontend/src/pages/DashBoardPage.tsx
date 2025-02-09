@@ -1,40 +1,48 @@
-import React from 'react';
-import { Card, Row, Col, Container, Alert } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Card, Row, Col, Container, Alert, Button, Modal, Form } from 'react-bootstrap';
+import { fetchMedicalHistory } from '../services/api.ts';
+
+interface MedicalHistoryItem {
+  // id: string;
+  symptoms: string;
+  diagnosis: string;
+  created_at: string;
+}
 
 const DashboardPage = () => {
-  // Mock data
-  const healthHistory = [
-    { id: 1, date: '2023-10-01', snippet: 'EncryptedData123...', diagnosis: 'Possible flu' },
-    { id: 2, date: '2023-10-02', snippet: 'EncryptedData456...', diagnosis: 'Stress-related' }
-  ];
+  const [history, setHistory] = useState<MedicalHistoryItem[]>([]);
+  const [selectedEntry, setSelectedEntry] = useState<MedicalHistoryItem | null>(null);
+
+  useEffect(() => {
+    fetchMedicalHistory().then(setHistory);
+  }, []);
+
 
   return (
     <Container className="mt-4">
-      <h3>Welcome back, User!</h3>
-      <Alert variant="success" className="mt-3">
-        Your encrypted health data is 100% secure 🔒
-      </Alert>
-
-      <h4 className="mt-4">Medical History</h4>
-      <Row xs={1} md={2} className="g-4 mt-2">
-        {healthHistory.map((item) => (
-          <Col key={item.id}>
-            <Card>
-              <Card.Header>
-                <small className="text-muted">{item.date}</small>
-              </Card.Header>
-              <Card.Body>
-                <Card.Text className="text-truncate">{item.snippet}</Card.Text>
-                <Card.Subtitle className="text-primary">
-                  AI Diagnosis: {item.diagnosis}
-                </Card.Subtitle>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+      <h3>Medical History</h3>
+      {history && history.length > 0 ? (
+        <Row xs={1} md={2} className="g-4 mt-2">
+          {history.map((entry, index) => (
+            <Col key={index}>
+              <Card>
+                <Card.Header className="d-flex justify-content-between align-items-center">
+                  <small>{new Date(entry.created_at).toLocaleDateString()}</small>
+                </Card.Header>
+                <Card.Body>
+                  <Card.Text><strong>Symptoms:</strong> {entry.symptoms}</Card.Text>
+                  <Card.Text><strong>Diagnosis:</strong> {entry.diagnosis}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      ) : (
+        <Alert variant="info">No entries found.</Alert>
+      )}
     </Container>
   );
 };
+
 
 export default DashboardPage;

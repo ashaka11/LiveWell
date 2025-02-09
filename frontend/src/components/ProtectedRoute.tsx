@@ -10,7 +10,7 @@ const ProtectedRoute = () => {
     useEffect(() => {
       const validateToken = async () => {
         try {
-          await authAPI.validateToken(); // You'll need to implement this endpoint
+          await authAPI.validateToken();
           setIsAuthenticated(true);
         } catch {
           localStorage.removeItem('authToken');

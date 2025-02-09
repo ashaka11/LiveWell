@@ -1,7 +1,7 @@
 from flask import current_app, request, jsonify
 from functools import wraps
 import jwt
-from .Models.user import User
+from .models.user import User
 
 # Token verification middleware
 def token_required(f):

@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, current_app, make_response
 import bcrypt, jwt
 
-from ..Models.user import User
+from ..models.user import User
 
 login = Blueprint('user', __name__)
 
@@ -20,6 +20,7 @@ def login_user():
         user = User().get_user(data['username'])
         if user:
             if bcrypt.checkpw(data['password'].encode('utf-8'), user['password']):
+                print(user)
                 token = jwt.encode({'username': user['username']}, current_app.config['SECRET_KEY'])
                 return make_response(jsonify({'token': token}), 200)
             else:

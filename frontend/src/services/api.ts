@@ -29,9 +29,10 @@ export const authAPI = {
 
   login: async (username: string, password: string) => {
     try {
+      console.log(username, password);
       const response = await api.post('/user/login', {
-        username,
-        password
+        'username': username,
+        'password': password
       });
       return response.data;
     } catch (error) {
@@ -49,13 +50,21 @@ export const authAPI = {
   }
 };
 
-// Mock API calls (replace with your Flask endpoints)
-export const sendMessage = async (message: string) => {
-  const response = await axios.post('/api/chat', { message });
-  return response.data.reply;
+
+export const sendSymptoms = async (symptoms: string) => {
+  const response = await api.post('/symptoms', { symptoms });
+  return response.data['symptom'];
 };
 
-export const fetchHistory = async () => {
-  const response = await axios.get('/api/history');
-  return response.data;
+export const fetchMedicalHistory = async () => {
+  const response = await api.get('/medical-history');
+  return response.data.map(([symptoms, diagnosis, created_at]) => ({
+    symptoms,
+    diagnosis,
+    created_at,
+  }));
+};
+
+export const deleteSymptomEntry = async (entryId: string) => {
+  await api.delete(`/medical-history/${entryId}`);
 };
