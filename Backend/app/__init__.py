@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
-from app.Login.login import login
+from app.routes.login import login
+from app.routes.symptoms import symptoms_bp
 from flask import jsonify
 
 def create_app(config):
@@ -8,6 +9,8 @@ def create_app(config):
     CORS(app, supports_credentials=True)
     app.config.from_pyfile(config)
     app.register_blueprint(login, url_prefix='/user')
+    app.register_blueprint(symptoms_bp)
+    print(app.config['SECRET_KEY'])
 
     # Error handling
     @app.errorhandler(404)
